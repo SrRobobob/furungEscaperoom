@@ -8,6 +8,9 @@ const uint HB_f = 10000; // 10sec
 const int buttonPin = 2; 
 unsigned long TALHB;
 
+byte buttonState = false;
+byte lastButtonState = false;
+
 const uint port = 9001;
 IPAddress gateway;
 
@@ -65,12 +68,15 @@ void loop(){
 
 void sendMessage()
 {
-  // is button pressed
-  if (digitalRead(buttonPin) == HIGH)
-  {
-    Serial.println("Should be sending shite");
-    client.println(66);
+  buttonState = digitalRead(buttonPin);
+  if (buttonState != lastButtonState) {
+    lastButtonState = buttonState;
+    if (buttonState == LOW) {
+      // do an action, for example print on Serial
+      Serial.println("Should be sending shite");
+      client.println(66);
+    }
   }
-
 }
+
 
